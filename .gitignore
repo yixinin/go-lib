@@ -1,0 +1,4 @@
+go-lib
+*.exe
+*debug*
+go.sum
