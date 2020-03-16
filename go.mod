@@ -11,6 +11,7 @@ require (
 	github.com/micro/go-micro/v2 v2.2.0
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/satori/go.uuid v1.2.0
+	go.mongodb.org/mongo-driver v1.3.1
 	go.uber.org/zap v1.14.1
 	gopkg.in/yaml.v2 v2.2.8
 )
