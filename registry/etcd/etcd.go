@@ -23,7 +23,7 @@ import (
 )
 
 var (
-	prefix = "/micro/registry/"
+	prefix = "/livechat/registry/"
 )
 
 type etcdRegistry struct {
