@@ -48,7 +48,7 @@ func Panic(args ...interface{}) {
 	Panicf(format, args...)
 }
 
-func Faltal(args ...interface{}) {
+func Fatal(args ...interface{}) {
 	if len(args) == 0 {
 		return
 	}
@@ -59,10 +59,10 @@ func Faltal(args ...interface{}) {
 	} else {
 		format = "debug info: %v"
 	}
-	Faltalf(format, args...)
+	Fatalf(format, args...)
 }
 
-func Faltalf(format string, args ...interface{}) {
+func Fatalf(format string, args ...interface{}) {
 	if !strings.HasSuffix(format, "\n") {
 		format += "\n"
 	}
