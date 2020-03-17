@@ -1,16 +1,24 @@
 package log
 
 import (
-	"fmt"
+	"log"
 	"strings"
 )
 
 type Logger interface {
-	Panic(format string, args ...interface{})
-	Error(format string, args ...interface{})
-	Wran(format string, args ...interface{})
-	Info(format string, args ...interface{})
-	Debug(format string, args ...interface{})
+	Fatal(args ...interface{})
+	Panic(args ...interface{})
+	Error(args ...interface{})
+	Wran(args ...interface{})
+	Info(args ...interface{})
+	Debug(args ...interface{})
+
+	Fatalf(format string, args ...interface{})
+	Panicf(format string, args ...interface{})
+	Errorf(format string, args ...interface{})
+	Wranf(format string, args ...interface{})
+	Infof(format string, args ...interface{})
+	Debugf(format string, args ...interface{})
 }
 
 var logger Logger
@@ -28,38 +36,30 @@ func Panicf(format string, args ...interface{}) {
 		format += "\n"
 	}
 	if logger == nil {
-		fmt.Printf(format, args...)
+		log.Panicf(format, args...)
 		return
 	}
-	logger.Panic(format, args...)
+	logger.Panicf(format, args...)
 }
 
 func Panic(args ...interface{}) {
 	if len(args) == 0 {
 		return
 	}
-	var format string
-	if s, ok := args[0].(string); ok {
-		format = s
-		args = args[1:]
-	} else {
-		format = "debug info: %v"
+	if logger == nil {
+		log.Panic(args...)
 	}
-	Panicf(format, args...)
+	logger.Panic(args...)
 }
 
 func Fatal(args ...interface{}) {
 	if len(args) == 0 {
 		return
 	}
-	var format string
-	if s, ok := args[0].(string); ok {
-		format = s
-		args = args[1:]
-	} else {
-		format = "debug info: %v"
+	if logger == nil {
+		log.Fatal(args...)
 	}
-	Fatalf(format, args...)
+	logger.Fatal(args...)
 }
 
 func Fatalf(format string, args ...interface{}) {
@@ -67,10 +67,10 @@ func Fatalf(format string, args ...interface{}) {
 		format += "\n"
 	}
 	if logger == nil {
-		fmt.Printf(format, args...)
+		log.Fatalf(format, args...)
 		return
 	}
-	logger.Panic(format, args...)
+	logger.Fatalf(format, args...)
 }
 
 func Errorf(format string, args ...interface{}) {
@@ -78,24 +78,21 @@ func Errorf(format string, args ...interface{}) {
 		format += "\n"
 	}
 	if logger == nil {
-		fmt.Printf(format, args...)
+		log.Printf(format, args...)
 		return
 	}
-	logger.Error(format, args...)
+	logger.Errorf(format, args...)
 }
 
 func Error(args ...interface{}) {
 	if len(args) == 0 {
 		return
 	}
-	var format string
-	if s, ok := args[0].(string); ok {
-		format = s
-		args = args[1:]
-	} else {
-		format = "debug info: %v"
+	if logger == nil {
+		log.Println(args...)
+		return
 	}
-	Errorf(format, args...)
+	logger.Error(args...)
 }
 
 func Warnf(format string, args ...interface{}) {
@@ -103,24 +100,21 @@ func Warnf(format string, args ...interface{}) {
 		format += "\n"
 	}
 	if logger == nil {
-		fmt.Printf(format, args...)
+		log.Printf(format, args...)
 		return
 	}
-	logger.Wran(format, args...)
+	logger.Wranf(format, args...)
 }
 
 func Warn(args ...interface{}) {
 	if len(args) == 0 {
 		return
 	}
-	var format string
-	if s, ok := args[0].(string); ok {
-		format = s
-		args = args[1:]
-	} else {
-		format = "debug info: %v"
+	if logger == nil {
+		log.Println(args...)
+		return
 	}
-	Warnf(format, args...)
+	logger.Wran(args...)
 }
 
 func Infof(format string, args ...interface{}) {
@@ -128,23 +122,20 @@ func Infof(format string, args ...interface{}) {
 		format += "\n"
 	}
 	if logger == nil {
-		fmt.Printf(format, args...)
+		log.Printf(format, args...)
 		return
 	}
-	logger.Info(format, args...)
+	logger.Infof(format, args...)
 }
 func Info(args ...interface{}) {
 	if len(args) == 0 {
 		return
 	}
-	var format string
-	if s, ok := args[0].(string); ok {
-		format = s
-		args = args[1:]
-	} else {
-		format = "debug info: %v"
+	if logger == nil {
+		log.Println(args...)
+		return
 	}
-	Infof(format, args...)
+	logger.Info(args...)
 }
 
 func Debugf(format string, args ...interface{}) {
@@ -152,22 +143,19 @@ func Debugf(format string, args ...interface{}) {
 		format += "\n"
 	}
 	if logger == nil {
-		fmt.Printf(format, args...)
+		log.Printf(format, args...)
 		return
 	}
-	logger.Debug(format, args...)
+	logger.Debugf(format, args...)
 }
 
 func Debug(args ...interface{}) {
 	if len(args) == 0 {
 		return
 	}
-	var format string
-	if s, ok := args[0].(string); ok {
-		format = s
-		args = args[1:]
-	} else {
-		format = "debug info: %v"
+	if logger == nil {
+		log.Println(args...)
+		return
 	}
-	Debugf(format, args...)
+	logger.Debug(args...)
 }

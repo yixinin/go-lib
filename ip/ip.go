@@ -12,5 +12,9 @@ func init() {
 }
 
 func GrpcAddr(port string) string {
-	return fmt.Sprintf(LocalIP, port)
+	return fmt.Sprintf("%s:%s", LocalIP, port)
+}
+
+func GetAddr(port string) string {
+	return fmt.Sprintf("%s:%s", LocalIP, port)
 }

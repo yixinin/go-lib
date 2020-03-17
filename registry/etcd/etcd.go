@@ -265,8 +265,16 @@ func (e *etcdRegistry) registerNode(s *registry.Service, node *registry.Node, op
 		e.leases[s.Name+node.Id] = lgr.ID
 	}
 	e.Unlock()
-
+	e.KeepAlive(lgr.ID)
 	return nil
+}
+
+func (e *etcdRegistry) KeepAlive(leaseId clientv3.LeaseID) {
+	if _, err := e.client.KeepAlive(context.TODO(), leaseId); err != nil {
+		if err != rpctypes.ErrLeaseNotFound {
+			log.Error(err)
+		}
+	}
 }
 
 func (e *etcdRegistry) Deregister(s *registry.Service) error {

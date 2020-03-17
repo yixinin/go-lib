@@ -10,17 +10,17 @@ import (
 )
 
 type MongoConfig struct {
-	Host string
-	Port string
-	User string
-	Pwd  string
-	DB   string
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+	User string `yaml:"user"`
+	Pwd  string `yaml:"pwd"`
+	DB   string `yaml:"db"`
 }
 
 var Mongo *mongo.Database
 
-func Init(c *MongoConfig) {
-	var url = fmt.Sprintf("mongodb://localhost:27017", c.Host, c.Port)
+func InitMongo(c *MongoConfig) {
+	var url = fmt.Sprintf("mongodb://%s:%s", c.Host, c.Port)
 	client, err := mongo.NewClient(options.Client().ApplyURI(url))
 	if err != nil {
 		log.Panicf("new mongo client err:%v", err)

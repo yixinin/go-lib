@@ -12,8 +12,13 @@ func IPAddress() string {
 	}
 	for _, value := range addrs {
 		if ipnet, ok := value.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ip := ipnet.IP; ip != nil && ip.IsGlobalUnicast() && strings.Contains(ipnet.String(), "/24") {
-				return ip.To4().String()
+			if ip := ipnet.IP; ip != nil && ip.IsGlobalUnicast() {
+				if strings.Contains(ipnet.String(), "/24") {
+					return ip.To4().String()
+				}
+				if strings.Contains(ipnet.String(), "/23") {
+					return ip.To4().String()
+				}
 			}
 		}
 	}
