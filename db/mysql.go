@@ -23,7 +23,7 @@ func InitMysql(conf *MysqlConfig) {
 	if err != nil {
 		panic(err)
 	}
-	SyncTable()
+	// SyncTable()
 }
 
 func SyncTable(s ...interface{}) {
