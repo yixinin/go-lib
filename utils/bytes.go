@@ -27,3 +27,7 @@ func BytesToUint16(buf []byte) uint16 {
 func BytesToUint32(buf []byte) uint32 {
 	return binary.LittleEndian.Uint32(buf)
 }
+
+func GetMsgId(buf []byte) int {
+	return int(binary.LittleEndian.Uint16(buf))
+}
