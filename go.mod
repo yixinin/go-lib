@@ -8,6 +8,7 @@ require (
 	github.com/go-redis/redis/v7 v7.2.0
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-xorm/xorm v0.7.9
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/micro/go-micro/v2 v2.2.0
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/satori/go.uuid v1.2.0

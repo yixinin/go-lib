@@ -1,8 +1,7 @@
 package log
 
 import (
-	"log"
-	"strings"
+	"github.com/golang/glog"
 )
 
 type Logger interface {
@@ -24,7 +23,7 @@ type Logger interface {
 var logger Logger
 
 func init() {
-	log.SetFlags(log.Lshortfile | log.LstdFlags)
+	glog.Infoln("glog")
 }
 
 func Init(lg Logger) {
@@ -32,11 +31,11 @@ func Init(lg Logger) {
 }
 
 func Panicf(format string, args ...interface{}) {
-	if !strings.HasSuffix(format, "\n") {
-		format += "\n"
-	}
+	// if !strings.HasSuffix(format, "\n") {
+	// 	format += "\n"
+	// }
 	if logger == nil {
-		log.Panicf(format, args...)
+		glog.Errorf(format, args...)
 		return
 	}
 	logger.Panicf(format, args...)
@@ -47,7 +46,8 @@ func Panic(args ...interface{}) {
 		return
 	}
 	if logger == nil {
-		log.Panic(args...)
+		// log.Panic(args...)
+		glog.Error(args)
 	}
 	logger.Panic(args...)
 }
@@ -57,28 +57,30 @@ func Fatal(args ...interface{}) {
 		return
 	}
 	if logger == nil {
-		log.Fatal(args...)
+		// log.Fatal(args...)
+		glog.Fatal(args...)
 	}
 	logger.Fatal(args...)
 }
 
 func Fatalf(format string, args ...interface{}) {
-	if !strings.HasSuffix(format, "\n") {
-		format += "\n"
-	}
+	// if !strings.HasSuffix(format, "\n") {
+	// 	format += "\n"
+	// }
 	if logger == nil {
-		log.Fatalf(format, args...)
+		// log.Fatalf(format, args...)
+		glog.Fatalf(format, args...)
 		return
 	}
 	logger.Fatalf(format, args...)
 }
 
 func Errorf(format string, args ...interface{}) {
-	if !strings.HasSuffix(format, "\n") {
-		format += "\n"
-	}
+	// if !strings.HasSuffix(format, "\n") {
+	// 	format += "\n"
+	// }
 	if logger == nil {
-		log.Printf(format, args...)
+		glog.Errorf(format, args...)
 		return
 	}
 	logger.Errorf(format, args...)
@@ -89,18 +91,20 @@ func Error(args ...interface{}) {
 		return
 	}
 	if logger == nil {
-		log.Println(args...)
+		// log.Println(args...)
+		glog.Error(args...)
 		return
 	}
 	logger.Error(args...)
 }
 
 func Warnf(format string, args ...interface{}) {
-	if !strings.HasSuffix(format, "\n") {
-		format += "\n"
-	}
+	// if !strings.HasSuffix(format, "\n") {
+	// 	format += "\n"
+	// }
 	if logger == nil {
-		log.Printf(format, args...)
+		// log.Printf(format, args...)
+		glog.Warningf(format, args...)
 		return
 	}
 	logger.Wranf(format, args...)
@@ -111,18 +115,20 @@ func Warn(args ...interface{}) {
 		return
 	}
 	if logger == nil {
-		log.Println(args...)
+		// log.Println(args...)
+		glog.Warning(args...)
 		return
 	}
 	logger.Wran(args...)
 }
 
 func Infof(format string, args ...interface{}) {
-	if !strings.HasSuffix(format, "\n") {
-		format += "\n"
-	}
+	// if !strings.HasSuffix(format, "\n") {
+	// 	format += "\n"
+	// }
 	if logger == nil {
-		log.Printf(format, args...)
+		// log.Printf(format, args...)
+		glog.Infof(format, args...)
 		return
 	}
 	logger.Infof(format, args...)
@@ -132,18 +138,20 @@ func Info(args ...interface{}) {
 		return
 	}
 	if logger == nil {
-		log.Println(args...)
+		// log.Println(args...)
+		glog.Info(args...)
 		return
 	}
 	logger.Info(args...)
 }
 
 func Debugf(format string, args ...interface{}) {
-	if !strings.HasSuffix(format, "\n") {
-		format += "\n"
-	}
+	// if !strings.HasSuffix(format, "\n") {
+	// 	format += "\n"
+	// }
 	if logger == nil {
-		log.Printf(format, args...)
+		// log.Printf(format, args...)
+		glog.Infof(format, args...)
 		return
 	}
 	logger.Debugf(format, args...)
@@ -154,7 +162,8 @@ func Debug(args ...interface{}) {
 		return
 	}
 	if logger == nil {
-		log.Println(args...)
+		// log.Println(args...)
+		glog.Info(args...)
 		return
 	}
 	logger.Debug(args...)
