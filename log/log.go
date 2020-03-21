@@ -1,6 +1,8 @@
 package log
 
 import (
+	"flag"
+
 	"github.com/golang/glog"
 )
 
@@ -23,7 +25,8 @@ type Logger interface {
 var logger Logger
 
 func init() {
-	glog.Infoln("glog")
+	flag.Parse()
+	defer glog.Flush()
 }
 
 func Init(lg Logger) {
@@ -35,6 +38,7 @@ func Panicf(format string, args ...interface{}) {
 	// 	format += "\n"
 	// }
 	if logger == nil {
+		defer glog.Flush()
 		glog.Errorf(format, args...)
 		return
 	}
@@ -47,6 +51,7 @@ func Panic(args ...interface{}) {
 	}
 	if logger == nil {
 		// log.Panic(args...)
+		defer glog.Flush()
 		glog.Error(args)
 	}
 	logger.Panic(args...)
@@ -58,6 +63,7 @@ func Fatal(args ...interface{}) {
 	}
 	if logger == nil {
 		// log.Fatal(args...)
+		defer glog.Flush()
 		glog.Fatal(args...)
 	}
 	logger.Fatal(args...)
@@ -69,6 +75,7 @@ func Fatalf(format string, args ...interface{}) {
 	// }
 	if logger == nil {
 		// log.Fatalf(format, args...)
+		defer glog.Flush()
 		glog.Fatalf(format, args...)
 		return
 	}
@@ -80,6 +87,7 @@ func Errorf(format string, args ...interface{}) {
 	// 	format += "\n"
 	// }
 	if logger == nil {
+		defer glog.Flush()
 		glog.Errorf(format, args...)
 		return
 	}
@@ -92,6 +100,7 @@ func Error(args ...interface{}) {
 	}
 	if logger == nil {
 		// log.Println(args...)
+		defer glog.Flush()
 		glog.Error(args...)
 		return
 	}
@@ -104,6 +113,7 @@ func Warnf(format string, args ...interface{}) {
 	// }
 	if logger == nil {
 		// log.Printf(format, args...)
+		defer glog.Flush()
 		glog.Warningf(format, args...)
 		return
 	}
@@ -116,6 +126,7 @@ func Warn(args ...interface{}) {
 	}
 	if logger == nil {
 		// log.Println(args...)
+		defer glog.Flush()
 		glog.Warning(args...)
 		return
 	}
@@ -128,6 +139,7 @@ func Infof(format string, args ...interface{}) {
 	// }
 	if logger == nil {
 		// log.Printf(format, args...)
+		defer glog.Flush()
 		glog.Infof(format, args...)
 		return
 	}
@@ -139,6 +151,7 @@ func Info(args ...interface{}) {
 	}
 	if logger == nil {
 		// log.Println(args...)
+		defer glog.Flush()
 		glog.Info(args...)
 		return
 	}
@@ -151,6 +164,7 @@ func Debugf(format string, args ...interface{}) {
 	// }
 	if logger == nil {
 		// log.Printf(format, args...)
+		defer glog.Flush()
 		glog.Infof(format, args...)
 		return
 	}
@@ -163,6 +177,7 @@ func Debug(args ...interface{}) {
 	}
 	if logger == nil {
 		// log.Println(args...)
+		defer glog.Flush()
 		glog.Info(args...)
 		return
 	}
