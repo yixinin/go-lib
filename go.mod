@@ -13,5 +13,6 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	go.mongodb.org/mongo-driver v1.3.1
 	go.uber.org/zap v1.14.1
+	google.golang.org/grpc v1.26.0
 	gopkg.in/yaml.v2 v2.2.8
 )

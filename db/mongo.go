@@ -32,3 +32,23 @@ func InitMongo(c *MongoConfig) {
 	}
 	Mongo = client.Database(c.DB)
 }
+
+type Table interface {
+	TableName() string
+}
+type NTable interface {
+	TableName(v int64) string
+}
+
+func GetMongo(v interface{}, x ...int64) *mongo.Collection {
+	if len(x) > 0 {
+		if i, ok := v.(NTable); ok {
+			return Mongo.Collection(i.TableName(x[0]))
+		}
+	}
+	if i, ok := v.(Table); ok {
+		return Mongo.Collection(i.TableName())
+	}
+
+	return nil
+}

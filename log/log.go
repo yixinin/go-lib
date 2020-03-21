@@ -24,7 +24,7 @@ type Logger interface {
 var logger Logger
 
 func init() {
-
+	log.SetFlags(log.Lshortfile | log.LstdFlags)
 }
 
 func Init(lg Logger) {
