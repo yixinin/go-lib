@@ -1,8 +1,9 @@
 package pool
 
 import (
-	"go-lib/log"
 	"sync"
+
+	log "github.com/sirupsen/logrus"
 
 	"google.golang.org/grpc"
 )

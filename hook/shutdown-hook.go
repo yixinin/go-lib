@@ -50,5 +50,5 @@ func (s *App) Start() {
 }
 
 func (s *App) Stop() {
-	s.stop <- true
+	close(s.stop)
 }

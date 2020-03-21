@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
+	"xorm.io/core"
 )
 
 type MysqlConfig struct {
@@ -13,6 +14,7 @@ type MysqlConfig struct {
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
 	DB       string `yaml:"db"`
+	Prefix   string `yaml:"prefix"`
 }
 
 var Mysql *xorm.Engine
@@ -23,7 +25,10 @@ func InitMysql(conf *MysqlConfig) {
 	if err != nil {
 		panic(err)
 	}
+	tbMapper := core.NewPrefixMapper(core.SnakeMapper{}, conf.Prefix)
+	Mysql.SetTableMapper(tbMapper)
 	// SyncTable()
+
 }
 
 func SyncTable(s ...interface{}) {

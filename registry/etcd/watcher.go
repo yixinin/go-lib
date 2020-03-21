@@ -49,9 +49,6 @@ func (ew *etcdWatcher) Next() (*registry.Result, error) {
 		if wresp.Err() != nil {
 			return nil, wresp.Err()
 		}
-		if wresp.Canceled {
-			return nil, errors.New("could not get next")
-		}
 		for _, ev := range wresp.Events {
 			service := decode(ev.Kv.Value)
 			var action string

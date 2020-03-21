@@ -13,17 +13,16 @@ import (
 	"sync"
 	"time"
 
-	"go-lib/log"
 	"go-lib/registry"
 
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/etcdserver/api/v3rpc/rpctypes"
 	hash "github.com/mitchellh/hashstructure"
-	"go.uber.org/zap"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
-	prefix = "/livechat/registry/"
+	prefix = "/live-chat/registry/"
 )
 
 type etcdRegistry struct {
@@ -74,10 +73,6 @@ func configure(e *etcdRegistry, opts ...registry.Option) error {
 		if ok {
 			config.Username = u.Username
 			config.Password = u.Password
-		}
-		cfg, ok := e.options.Context.Value(logConfigKey{}).(*zap.Config)
-		if ok && cfg != nil {
-			config.LogConfig = cfg
 		}
 	}
 
@@ -192,13 +187,13 @@ func (e *etcdRegistry) registerNode(s *registry.Service, node *registry.Node, op
 
 	// renew the lease if it exists
 	if leaseID > 0 {
-		log.Warnf("Renewing existing lease for %s %d", s.Name, leaseID)
+		log.Tracef("Renewing existing lease for %s %d", s.Name, leaseID)
 		if _, err := e.client.KeepAliveOnce(context.TODO(), leaseID); err != nil {
 			if err != rpctypes.ErrLeaseNotFound {
 				return err
 			}
 
-			log.Warnf("Lease not found for %s %d", s.Name, leaseID)
+			log.Tracef("Lease not found for %s %d", s.Name, leaseID)
 			// lease not found do register
 			leaseNotFound = true
 		}
@@ -217,7 +212,7 @@ func (e *etcdRegistry) registerNode(s *registry.Service, node *registry.Node, op
 
 	// the service is unchanged, skip registering
 	if ok && v == h && !leaseNotFound {
-		log.Warnf("Service %s node %s unchanged skipping registration", s.Name, node.Id)
+		log.Tracef("Service %s node %s unchanged skipping registration", s.Name, node.Id)
 		return nil
 	}
 
@@ -246,7 +241,7 @@ func (e *etcdRegistry) registerNode(s *registry.Service, node *registry.Node, op
 		}
 	}
 
-	log.Warnf("Registering %s id %s with lease %v and ttl %v", service.Name, node.Id, lgr, options.TTL)
+	log.Tracef("Registering %s id %s with lease %v and ttl %v", service.Name, node.Id, lgr, options.TTL)
 	// create an entry for the node
 	if lgr != nil {
 		_, err = e.client.Put(ctx, nodePath(service.Name, node.Id), encode(service), clientv3.WithLease(lgr.ID))
@@ -276,7 +271,6 @@ func (e *etcdRegistry) KeepAlive(leaseId clientv3.LeaseID) {
 		}
 	}
 }
-
 func (e *etcdRegistry) Deregister(s *registry.Service) error {
 	if len(s.Nodes) == 0 {
 		return errors.New("Require at least one node")
@@ -293,7 +287,7 @@ func (e *etcdRegistry) Deregister(s *registry.Service) error {
 		ctx, cancel := context.WithTimeout(context.Background(), e.options.Timeout)
 		defer cancel()
 
-		log.Warnf("Deregistering %s id %s", s.Name, node.Id)
+		log.Tracef("Deregistering %s id %s", s.Name, node.Id)
 		_, err := e.client.Delete(ctx, nodePath(s.Name, node.Id))
 		if err != nil {
 			return err
