@@ -23,3 +23,7 @@ require (
 	gopkg.in/yaml.v2 v2.2.8
 	xorm.io/core v0.7.2-0.20190928055935-90aeac8d08eb
 )
+
+replace github.com/coreos/go-systemd => github.com/coreos/go-systemd/v22 v22.0.0
+
+replace google.golang.org/grpc => google.golang.org/grpc v1.26.0
